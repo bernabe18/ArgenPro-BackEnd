@@ -24,7 +24,7 @@ public class Rol {
     private int id;
     
     //NO PUEDE SER NULL y debe ser string
-    @NotNull
+    //@NotNull
     @Enumerated(EnumType.STRING)
     private RolName rolName;
 

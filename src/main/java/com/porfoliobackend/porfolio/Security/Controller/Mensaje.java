@@ -1,13 +1,8 @@
-
 package com.porfoliobackend.porfolio.Security.Controller;
-
 
 public class Mensaje {
 
-  
-    
-
-private String mensaje;
+    private String mensaje;
 
     public Mensaje() {
     }
@@ -15,13 +10,13 @@ private String mensaje;
     public Mensaje(String mensaje) {
         this.mensaje = mensaje;
     }
-    
-      public String getMensaje() {
+
+    public String getMensaje() {
         return mensaje;
     }
 
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
     }
-    
+
 }

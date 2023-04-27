@@ -5,11 +5,9 @@
  */
 package com.porfoliobackend.porfolio.Security.Enums;
 
-/**
- *
- * @author Margarita_Bravo
- */
+
 
 public enum RolName {
-    ROLE_ADMIN, ROLE_USER
+   ADMIN,
+    USER
 }

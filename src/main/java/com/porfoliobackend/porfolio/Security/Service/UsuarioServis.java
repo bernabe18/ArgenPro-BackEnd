@@ -1,7 +1,7 @@
-package com.porfoliobackend.porfolio.Segurity.Service;
+package com.porfoliobackend.porfolio.Security.Service;
 
 import com.porfoliobackend.porfolio.Security.Entity.Usuario;
-import com.porfoliobackend.porfolio.Segurity.Repository.UsuarioRepository;
+import com.porfoliobackend.porfolio.Security.Repository.UsuarioRepository;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +19,9 @@ public class UsuarioServis {
         return usuarioRepository.findByNombreUsuario(nombreUsuario);
     }
 
-    public boolean existsByNombre(String nombreUsuario) {
+    public boolean existsByNombreUsuario(String nombreUsuario) {
 
-        return usuarioRepository.existsByNombreUsuarion(nombreUsuario);
+        return usuarioRepository.existsByNombreUsuario(nombreUsuario);
     }
 
     public boolean existsByEmail(String email) {

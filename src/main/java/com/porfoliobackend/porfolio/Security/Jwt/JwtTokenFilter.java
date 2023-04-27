@@ -1,6 +1,6 @@
 package com.porfoliobackend.porfolio.Security.Jwt;
 
-import com.porfoliobackend.porfolio.Segurity.Service.UserDatailsImpl;
+import com.porfoliobackend.porfolio.Security.Service.UserDetailsImpl;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -20,9 +20,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private final static Logger logger = LoggerFactory.getLogger(JwtProvider.class);
 
     @Autowired
-    JwtProvider jwtprovider;
+    JwtProvider jwtProvider;
     @Autowired
-    UserDatailsImpl userDatailsImpl;
+    UserDetailsImpl userDatailsImpl;
 
     // encriptar la contraseña 
     @Override
@@ -30,9 +30,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         try {
             String token = getToken(request);
-            if (token != null && jwtprovider.validateToken(token)) {
+            if (token != null && jwtProvider.validateToken(token)) {
 
-                String nombreUsuario = jwtprovider.getNombreUsuarioToken(token);
+                String nombreUsuario = jwtProvider.getNombreUsuarioToken(token);
                 UserDetails userDetails = userDatailsImpl.loadUserByUsername(nombreUsuario);
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(auth);
@@ -45,8 +45,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     private String getToken (HttpServletRequest request){
         String header= request.getHeader("Authorization");
-        if(header !=null && header.startsWith("bearer")){
-            return header.replace("bearer", "");
+        if(header !=null && header.startsWith("Bearer")){
+            return header.replace("Bearer", "");
         }
         return null;
     }

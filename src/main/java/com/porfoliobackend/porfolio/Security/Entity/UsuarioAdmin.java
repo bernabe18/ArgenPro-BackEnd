@@ -34,6 +34,7 @@ public class UsuarioAdmin implements UserDetails {
                 .getRolName()
                 .name()))
                 .collect(Collectors.toList());
+        
         return new UsuarioAdmin(usuario.getNombre(),
                 usuario.getNombreUsuario(),
                 usuario.getEmail(),

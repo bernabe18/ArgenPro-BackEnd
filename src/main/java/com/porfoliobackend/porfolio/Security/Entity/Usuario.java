@@ -27,16 +27,16 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NotNull
+   // @NotNull
     private String nombre;
-    @NotNull
+   // @NotNull
     @Column(unique = true)
     private String nombreUsuario;
     
-    @NotNull
+    //@NotNull
     private String email;
     
-    @NotNull
+    //@NotNull
     private String password;
 
     //entidad relacion en la base de dato de muchos a muchos entre la

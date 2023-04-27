@@ -1,4 +1,4 @@
-package com.porfoliobackend.porfolio.Segurity.Service;
+package com.porfoliobackend.porfolio.Security.Service;
 
 import com.porfoliobackend.porfolio.Security.Entity.Usuario;
 import com.porfoliobackend.porfolio.Security.Entity.UsuarioAdmin;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service 
-public class UserDatailsImpl implements UserDetailsService {
+public class UserDetailsImpl implements UserDetailsService {
     
     @Autowired
     UsuarioServis usuarioServis;

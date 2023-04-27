@@ -7,9 +7,12 @@ import com.porfoliobackend.porfolio.Security.Entity.Rol;
 import com.porfoliobackend.porfolio.Security.Entity.Usuario;
 import com.porfoliobackend.porfolio.Security.Enums.RolName;
 import com.porfoliobackend.porfolio.Security.Jwt.JwtProvider;
-import com.porfoliobackend.porfolio.Segurity.Service.RolService;
-import com.porfoliobackend.porfolio.Segurity.Service.UserDatailsImpl;
-import com.porfoliobackend.porfolio.Segurity.Service.UsuarioServis;
+import com.porfoliobackend.porfolio.Security.Service.RolService;
+
+
+
+
+import com.porfoliobackend.porfolio.Security.Service.UsuarioServis;
 import java.util.HashSet;
 import java.util.Set;
 import javax.validation.Valid;
@@ -18,7 +21,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
+
 import org.springframework.security.core.Authentication;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,13 +39,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 public class AuthController {
 
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
-    Authentication authentication;
+    AuthenticationManager authenticationManager;
     @Autowired
     UsuarioServis usuarioServis;
     @Autowired
@@ -51,10 +57,10 @@ public class AuthController {
     public ResponseEntity<?> nuevoUsuario(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity(new Mensaje("Campos invalidos "), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Campos incorrectos o email invidalido "), HttpStatus.BAD_REQUEST);
         }
 
-        if (usuarioServis.existsByNombre(nuevoUsuario.getNombreUsuario())) {
+        if (usuarioServis.existsByNombreUsuario(nuevoUsuario.getNombre())) {
             return new ResponseEntity(new Mensaje("Este nombre de Usuario ya existe "), HttpStatus.BAD_REQUEST);
         }
 
@@ -66,16 +72,16 @@ public class AuthController {
                 nuevoUsuario.getEmail(), passwordEncoder.encode(nuevoUsuario.getPassword()));
 
         Set<Rol> roles = new HashSet<>();
-        roles.add(rolService.getByRolNombre(RolName.ROLE_USER).get());
+        roles.add(rolService.getByRolNombre(RolName.USER).get());
 
-        if (nuevoUsuario.getRoles().contains("admin")) {
-            roles.add(rolService.getByRolNombre(RolName.ROLE_ADMIN).get());
+        if (nuevoUsuario.getRoles().contains("admin")) 
+            roles.add(rolService.getByRolNombre(RolName.ADMIN).get());
             usuario.setRoles(roles);
             usuarioServis.save(usuario);
 
             return new ResponseEntity(new Mensaje("Usuario guardado"), HttpStatus.CREATED);
-        }
-        return null;
+        
+
     }
     
 
@@ -86,7 +92,7 @@ public class AuthController {
             return new ResponseEntity(new Mensaje("Campos mal puesto "), HttpStatus.BAD_REQUEST);
         }
 
-        Authentication authentication =  authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUsuario.getNombreUsuario(),loginUsuario.getPassword()) );
+      Authentication authentication =  authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUsuario.getNombreUsuario(),loginUsuario.getPassword()) );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -103,5 +109,5 @@ public class AuthController {
     
     
 
-//fin de class
+//
 }
